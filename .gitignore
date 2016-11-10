@@ -4,3 +4,7 @@ __dummy.html
 *.o
 *.obj
 __test*
+
+dub.selections.json
+lorem-songus-vibed-docker
+*.swp
