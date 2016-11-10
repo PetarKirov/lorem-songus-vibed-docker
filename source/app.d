@@ -34,15 +34,19 @@ class LoremSongAPI : ILoremSongAPI
 {
     string getSong(string theme, int count)
     {
+        import std.random : randomSample;
+
         auto client = connectMongoDB("127.0.0.1", 27017);
         auto songs = client.getCollection("lorem.songs");
         auto song = songs.findOne(["theme" : ["$eq" : theme]]);
         auto verses = song["data"].deserializeBson!(string[]);
+        auto selection = verses
+            .randomSample(min(count, verses.length));
 
         string[] result;
 
-        foreach (i; 0 .. min(count, verses.length))
-            result ~= "<div>%s</div>".format(verses[i]);
+        foreach (verse; selection)
+            result ~= "<div>%s</div>".format(verse);
 
         return "%-(%s\n%)".format(result);
     }
