@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+
+<html>
+	<head>
+    	<title>Corporate Ipsum, The Intelligent Text Generator</title>
+    	
+        <link rel="stylesheet" href="/css/styles.css" type="text/css" media="screen" />
+
+<!-- iPhone Specific Code -->
+<meta name = "viewport" content = "initial-scale = 0.85">
+
+<script>
+	window.addEventListener("load",function() {
+		setTimeout(function(){
+			window.scrollTo(0, 1);
+		}, 0);
+	});
+</script>
+<!-- End iPHone Specific Code -->
+
+<!-- Include jQuery -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<!-- End Include jQuery -->
+
+<!-- Google Analytics -->
+<script>
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-10147070-22']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!-- End Google Analytics -->        
+        <meta name="description" content="Corporate Ipsum was designed to facilitate the needs of corporate paper-pushers everywhere." />
+        
+        <meta name="keywords" content="ipsum, dummy text, generator, lorum, corporate" />
+        
+        <script>
+		$(document).ready(function(){
+			getIpsum();
+			
+			$(".GenerateButton").click(function(){
+				getIpsum();
+			});
+			
+			$(document).keypress(function(e) {
+			    if(e.which == 13) {
+			        getIpsum();
+			    }
+			});
+		});
+		
+		function getIpsum() {
+			console.log("getIpsum called");
+			var dataString = 'p='+ $('.ParNum').val() + ",theme=" + $('.Theme').val();
+			console.log(dataString);
+			$.ajax({
+				type:'POST',
+				url: 'generate',
+				data: dataString,
+				success: function(data) {
+					$(".ContentBox").html(data);
+				}
+			});
+		}
+		</script>
+    </head>
+    
+    <body>
+    
+ 	
+        <div class="Wrapper">
+        
+        	<div class="SelectionBar">
+            
+                <form method="post">
+					<label for="paragraphs">Number paragraphs:</label>
+                    <input type="text" class="ParNum" value="3" maxlength="3" name="paragraphs" id="paragraphs"/></br>
+					
+					<label for="theme">Theme:</label>
+					<input type="text" class="Theme" value="Love" maxlength="30" name="theme" id="theme"/></br>
+					
+					<input type="submit" class="GenerateButton" value="Send">
+                	<!--img src="generate-hover.png" class="GenerateButton" style="position: absolute; margin-left:79px;" /-->
+                </form>
+                
+            </div>
+            
+            <div class="ContentBox"></div>
+            
+        </div>
+    
+    </body>
+</html>
