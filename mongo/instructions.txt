@@ -1,5 +1,5 @@
 1. $ docker pull mongo (To pull the mongo server)
 2. $ docker run -d -p 27017:27017 --name mongoTest mongo (To start the mongo server)
-3. $ docker cp songs.json mongoTest:/tmp/songs.json (To load the json into the db)
+3. $ docker cp ./mongo/songs.json mongoTest:/tmp/songs.json (To load the json into the db)
 4. $ docker exec -it mongoTest bash (To open terminal from the docker)
-5. $ mongoimport --db lorem --file /tmp/songs.json (in the bash console in the container)
+5. $ mongoimport --jsonArray --db lorem --file /tmp/songs.json (in the bash console in the container)
