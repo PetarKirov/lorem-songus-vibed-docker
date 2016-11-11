@@ -1,45 +1,75 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Generate Code</title>
-  <meta charset="utf-8">
+<title>Generate Code</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 <script type="text/javascript">
 function getIpsum() {
 	console.log("getIpsum request: ");
-	var dataString = "theme=" + $('.Theme').val() + '&count='+ $('.ParNum').val();
+	var num_paragraphs = $('.ParNum').val();
+	var dataString = "theme=" + $('.Theme').val() + '&count='+ num_paragraphs;
 	console.log(dataString);
+
+	var isnum = /^\d+$/.test(num_paragraphs);
+	if (!isnum) {
+		alert("wrong input!");
+		document.getElementById("count").value = "";
+		return;
+	}
+	
+	if(num_paragraphs <= 0) {
+		alert("wrong input!");
+		document.getElementById("count").value = "";
+		return;
+	}
+	
 	$.ajax({
 		type:'GET',
 		url: 'song',
 		data: dataString,
 		success: function(data) {
-			$(".ContentBox").html(data);
+			$(".container").html(data);
 		}
 	});
-
-	//document.getElementById("count").value = "";
 }
 </script>
 
 </head>
 <body>
+<h4 align="center">Paragraphs generation</h4>
+<hr>
+<div class="w3-row">
+	<div align="center">
+		<form>
+		  <label for="theme">Select theme:</label>
+		  <select id="theme" class="Theme" name="theme">
+			<option value="Love" selected>Love</option>
+			<option value="Random">Random</option>
+		  </select> </br>
 
-<form>
-  <label for="theme">Select theme</label>
-  <select id="theme" class="Theme" name="theme">
-  	<option value="Love" selected>Love</option>
-  	<option value="Random">Random</option>
-  </select> </br>
+		  <label for="count">Number paragraphs:</label>
+		  <input type="text" class="ParNum" name="count" id="count"> </br>
 
-  <label for="count">Number paragraphs:</label>
-  <input type="text" class="ParNum" name="count" id="count"> </br>
+		  <input align="left" type="button" onclick="getIpsum()" value="Generate">
+		</form>
+	</div>
+</div>
+<hr>
+<div class="w3-row" >
+	<div class="container" align="center">
+		<p></p>
+	</div>
+</div>
 
-  <input type="button" onclick="getIpsum()" value="Send">
-</form>
-
-<div class="ContentBox"></div>
+<hr>
 
 </body>
 </html>
