@@ -9,9 +9,9 @@ mongo-seed:
     - mongodb
 
 # my webserver which uses mongo (not shown in example)
-# webserver:
-#   build: .
-#   ports:
-#     - "8080:8080"
-#   links:
-#     - mongodb
+webserver:
+  build: .
+  ports:
+    - "8080:8080"
+  links:
+    - mongodb
