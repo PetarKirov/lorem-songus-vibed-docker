@@ -16,14 +16,27 @@ $(document).ready(function() {
 	$(".generate_btn").click(function(){
 		getIpsum();
 	});
-	
+
 	$(document).keypress(function(e) {
 		if(e.which == 13) {
 			console.log("enter pressed");
-			
+
 			getIpsum();
 		}
 	});
+
+	$.ajax({
+		type:'GET',
+		url: 'themes',
+		success: function(data) {
+		    data.forEach(function(e) {
+			var option = document.createElement("option");
+			option.text = e;
+			$("#theme").append(option);
+		    });
+		}
+	});
+
 });
 
 function getIpsum() {
@@ -38,13 +51,13 @@ function getIpsum() {
 		document.getElementById("count").value = "";
 		return;
 	}
-	
+
 	if(num_paragraphs <= 0) {
 		alert("wrong input!");
 		document.getElementById("count").value = "";
 		return;
 	}
-	
+
 	$.ajax({
 		type:'GET',
 		url: 'song',
@@ -65,8 +78,6 @@ function getIpsum() {
 		<form>
 		  <label for="theme">Select theme:</label>
 		  <select id="theme" class="Theme" name="theme">
-			<option value="Love">Love</option>
-			<option value="Random" selected>Random</option>
 		  </select> </br>
 
 		  <label for="count">Number of sentences:</label>
