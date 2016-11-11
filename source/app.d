@@ -100,7 +100,7 @@ void runTestConnection()
     runTask(
     {
         logInfo("Creating a test");
-        auto client = new RestInterfaceClient!ILoremSongAPI("http://127.0.0.1:8080/");
+        auto client = new RestInterfaceClient!ILoremSongAPI("http://127.0.0.1:80");
         auto song = client.getSong("Random", 3);
         logInfo("%s", song);
 
