@@ -1,17 +1,19 @@
-mongodb:
-  image: mongo
-  ports:
-    - "27017:27017"
+version: '2'
+services:
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
 
-mongo-seed:
-  build: ./mongo-seed
-  links:
-    - mongodb
+  mongo-seed:
+    build: ./mongo-seed
+    links:
+      - mongodb
 
-# my webserver which uses mongo (not shown in example)
-webserver:
-  build: .
-  ports:
-    - "80:80"
-  links:
-    - mongodb
+  # my webserver which uses mongo (not shown in example)
+  webserver:
+    build: .
+    ports:
+      - "80:80"
+    links:
+      - mongodb
