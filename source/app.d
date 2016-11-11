@@ -23,7 +23,7 @@ shared static this()
         .registerRestInterface(new LoremSongAPI);
 
     auto settings = new HTTPServerSettings();
-    settings.port = 8080;
+    settings.port = 80;
 
     if (useLocalIpForTesting)
         settings.bindAddresses = ["::1", "127.0.0.1", "10.23.6.219"];
