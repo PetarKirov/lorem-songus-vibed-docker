@@ -12,6 +12,7 @@ import std.algorithm.comparison : min;
 interface ILoremSongAPI
 {
     string getSong(string theme, int count);
+    string[] getThemes();
 }
 
 shared static this()
@@ -41,7 +42,7 @@ class LoremSongAPI : ILoremSongAPI
         import std.array : array;
         import std.random : randomSample, randomCover;
 
-        auto client = connectMongoDB("127.0.0.1", 27017);
+        auto client = getDB();
         auto songs = client.getCollection("lorem.songs");
         auto song = songs.findOne(["theme" : ["$eq" : theme]]);
         auto verses = song["data"].deserializeBson!(string[]);
@@ -56,6 +57,28 @@ class LoremSongAPI : ILoremSongAPI
             result ~= "<div>%s</div>".format(verse);
 
         return "%-(%s\n%)".format(result);
+    }
+
+    string[] getThemes()
+    {
+        auto client = getDB();
+        auto songs = client.getCollection("lorem.songs");
+        auto themes = songs.find(cast(string[string])null, ["theme" : 1, "_id" : 0]);
+
+        string[] result;
+
+        foreach (value; themes)
+            result ~= value["theme"].get!string;
+
+        return result;
+    }
+
+    auto getDB()
+    {
+        if (useLocalIpForTesting)
+            return connectMongoDB("127.0.0.1", 27017);
+        else
+            return connectMongoDB("mongodb");
     }
 }
 
@@ -80,6 +103,9 @@ void runTestConnection()
         auto client = new RestInterfaceClient!ILoremSongAPI("http://127.0.0.1:8080/");
         auto song = client.getSong("Random", 3);
         logInfo("%s", song);
+
+        auto themes = client.getThemes();
+        logInfo("%s", themes);
 
     });
 }
