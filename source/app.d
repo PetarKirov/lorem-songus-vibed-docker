@@ -28,7 +28,7 @@ shared static this()
     if (useLocalIpForTesting)
         settings.bindAddresses = ["::1", "127.0.0.1", "10.23.6.219"];
     else
-        settings.bindAddresses = ["::1", "127.0.0.1"];
+        settings.bindAddresses = ["0.0.0.0"];
 
     listenHTTP(settings, router);
 
